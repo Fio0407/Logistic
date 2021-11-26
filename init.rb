@@ -3,7 +3,7 @@
 require_relative './products'
 
 initial_stock = PRODUCTS
-
+#holaxd
 def init(initial_stock)
   print initial_stock
 end
