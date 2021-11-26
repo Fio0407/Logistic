@@ -5,7 +5,15 @@ require_relative './products'
 initial_stock = PRODUCTS
 
 def init(initial_stock)
-  print initial_stock
+  puts 'Available Stocks: '
+  print '************'
+  puts ' '
+  initial_stock.each do |stocks|
+    puts ' '
+    stocks.each do |key, value|
+      puts "#{key} : #{value}"
+    end
+  end
 end
 
 def add_products(new_product, initial_stock)
@@ -24,6 +32,7 @@ choice = gets.chomp.to_i
 while choice != 5
   case choice
   when 1
+    puts ' '
     init(initial_stock)
   when 2
     add_products(new_product, initial_stock)
@@ -36,3 +45,4 @@ while choice != 5
   end
   choice = gets.chomp.to_i
 end
+
