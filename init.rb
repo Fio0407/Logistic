@@ -15,7 +15,7 @@ def menu
 end
 
 def init(initial_stock)
-
+  total = 0
   puts ' '
   puts '=' * 20
   puts '| Available Stocks |'
@@ -29,48 +29,12 @@ def init(initial_stock)
   end
 end
 
-def retire_products(initial_stock)
-
-  puts ' '
-  puts '=' * 19
-  puts '| Retire Products |'
-  puts '=' * 19
-  puts ' '
-
-  puts 'Enter the type to withdraw: '
-  retire_type = gets.chomp.upcase
-  puts ' '
-
-  if retire_type =~ /^[A-Z]$/
-    puts 'Enter the quantity to withdraw: '
-    retire_quantity = gets.chomp.to_i.abs
-    puts ' '
-    if retire_quantity != ~ /^[A-Z]$/
-      initial_stock.each do |stocks|
-        if stocks[:type] == retire_type
-          if retire_quantity < stocks[:quantity]
-            stocks[:quantity] -= retire_quantity
-            puts ' '
-            puts 'Successful withdrawal!'
-          else
-            print 'The request exceeds the current stock!'
-          end
-        end
-      end
-    else
-      puts 'Numbers, please!'
-    end
-  else
-    puts 'Only letters, please!'
-  end
-end
-
 def weighted_average(initial_stock,new_cost,new_quantity)
   c = 0
   initial_stock.each do |stocks|
-    a = stocks[:unit_cost]*stocks[:quantity]
-    b = new_cost*new_quantity
-    c = (a+b) / (new_quantity + stocks[:quantity])
+    a = stocks[:unit_cost] * stocks[:quantity]
+    b = new_cost * new_quantity
+    c = (a + b) / (new_quantity + stocks[:quantity])
   end
   return c
 end
@@ -112,9 +76,9 @@ def add_products(initial_stock)
           else
             if stocks[:unit_cost] != new_cost
               new_product = {}
-              new_product['type'] = new_type
-              new_product['quantity'] = new_quantity
-              new_product['unit_cost'] = new_cost
+              new_product[:type] = new_type
+              new_product[:quantity] = new_quantity
+              new_product[:unit_cost] = new_cost
               initial_stock << new_product
               puts ' '
               puts 'The product was added successfully! '
@@ -133,6 +97,46 @@ def add_products(initial_stock)
   end
 end
 
+def retire_products(initial_stock)
+
+  puts ' '
+  puts '=' * 19
+  puts '| Retire Products |'
+  puts '=' * 19
+  puts ' '
+
+  puts 'Enter the type to withdraw: '
+  retire_type = gets.chomp.upcase
+  puts ' '
+
+  if retire_type =~ /^[A-Z]$/
+    puts 'Enter the quantity to withdraw: '
+    retire_quantity = gets.chomp.to_i.abs
+    puts ' '
+    if retire_quantity != ~ /^[A-Z]$/
+      initial_stock.each do |stocks|
+        if stocks[:type] == retire_type
+          if retire_quantity < stocks[:quantity]
+            stocks[:quantity] -= retire_quantity
+            puts ' '
+            puts 'Successful withdrawal!'
+          else
+            print 'The request exceeds the current stock!'
+          end
+        end
+      end
+    else
+      puts 'Numbers, please!'
+    end
+  else
+    puts 'Only letters, please!'
+  end
+end
+
+def show_movements(initial_stock)
+
+end
+
 menu
 
 choice = gets.chomp.to_i
@@ -146,7 +150,7 @@ while choice != 5
   when 3
     retire_products(initial_stock)
   when 4
-    puts 'move'
+    show_movements(initial_stock)
   else
     puts 'wrong option, try again'
   end
