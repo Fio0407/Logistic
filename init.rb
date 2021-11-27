@@ -5,15 +5,16 @@ require_relative './products'
 initial_stock = PRODUCTS
 
 def init(initial_stock)
-  puts 'Available Stocks: '
-  print '************'
+
   puts ' '
-  initial_stock.each do |stocks|
+  puts "=" * 20
+  puts "| Available Stocks |"
+  puts "=" * 20
+  puts ' '
+  initial_stock.each {|stocks|
     puts ' '
-    stocks.each do |key, value|
-      puts "#{key} : #{value}"
-    end
-  end
+    stocks.each { |key, value|
+    puts "#{key} : #{value}"}}
 end
 
 def add_products(new_product, initial_stock)
