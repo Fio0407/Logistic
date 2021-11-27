@@ -5,7 +5,6 @@ require_relative './products'
 initial_stock = PRODUCTS
 
 def init(initial_stock)
-
   puts ' '
   puts '=' * 20
   puts '| Available Stocks |'
@@ -19,8 +18,50 @@ def init(initial_stock)
   end
 end
 
-def add_products(new_product, initial_stock)
-  initial_stock[0][:quantity] += new_product[:quantity]
+def add_products(initial_stock)
+
+  new_product = {}
+  print 'Insert new type product: '
+  new_type = gets.chomp
+
+  new_product['type'] = new_type
+  puts ' '
+  print 'Insert new quantity: '
+  new_quantity = gets.chomp.to_i
+  new_product['quantity'] = new_quantity
+
+  puts ' '
+  print 'Insert unity cost: '
+  new_cost = gets.chomp.to_i
+  new_product['unit_cost'] = new_cost
+  initial_stock << new_product
+
+  initial_stock.each do |i|
+    if new_product[new_type] == initial_stock[i][:type]
+
+      print 'Do you wish to replace or add the respective amounts?'
+      wish = gets.chomp.capitalize!
+
+      case wish
+      when wish == 'Replace'
+        initial_stock[i][:quantity] = new_product[new_quantity.to_sym]
+        initial_stock[i][:unit_cost] = new_product[new_cost.to_sym]
+        puts ' '
+        puts 'The product was successfully changed! '
+
+      when wish == 'Add'
+        initial_stock[i][:quantity] += new_product[new_quantity.to_sym]
+        initial_stock[i][:unit_cost] += new_product[new_cost.to_sym]
+        puts ' '
+        puts 'The product was successfully changed! '
+      else puts "That's not an option!"
+      end
+
+    else
+      puts ' '
+      puts 'The product was added successfully! '
+    end
+  end
 end
 
 puts 'What would you like to do?'
@@ -32,13 +73,14 @@ puts "-- Type '5' to exit."
 puts 'Type your choice: '
 
 choice = gets.chomp.to_i
+
 while choice != 5
   case choice
   when 1
     puts ' '
     init(initial_stock)
   when 2
-    add_products(new_product, initial_stock)
+    add_products(initial_stock)
   when 3
     puts 'b'
   when 4
@@ -46,6 +88,7 @@ while choice != 5
   else
     puts 'wrong option, try again'
   end
-  choice = gets.chomp.to_i
 end
+
+
 
