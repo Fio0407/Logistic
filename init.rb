@@ -7,14 +7,16 @@ initial_stock = PRODUCTS
 def init(initial_stock)
 
   puts ' '
-  puts "=" * 20
-  puts "| Available Stocks |"
-  puts "=" * 20
+  puts '=' * 20
+  puts '| Available Stocks |'
+  puts '=' * 20
   puts ' '
-  initial_stock.each {|stocks|
+  initial_stock.each do |stocks|
     puts ' '
-    stocks.each { |key, value|
-    puts "#{key} : #{value}"}}
+    stocks.each do |key, value|
+      puts "#{key} : #{value}"
+    end
+  end
 end
 
 def add_products(new_product, initial_stock)
