@@ -4,6 +4,16 @@ require_relative './products'
 
 initial_stock = PRODUCTS.clone(freeze: false)
 
+def menu
+  puts 'What would you like to do?'
+  puts "-- Type '1' to show stocks."
+  puts "-- Type '2' to add new products."
+  puts "-- Type '3' to retire products."
+  puts "-- Type '4' to show movements of product."
+  puts "-- Type '5' to exit."
+  puts 'Type your choice: '
+end
+
 def init(initial_stock)
 
   puts ' '
@@ -29,11 +39,11 @@ def retire_products(initial_stock)
 
   retire_product = {}
   puts 'Enter the type to withdraw: '
-  retire_type = gets.chomp
+  retire_type = gets.chomp.upcase
   retire_product['type'] = retire_type
   puts ' '
   puts 'Enter the quantity to withdraw: '
-  new_retire_quantity = gets.chomp.to_i
+  new_retire_quantity = gets.chomp.to_i.abs
   retire_product['quantity'] = new_retire_quantity
   puts ' '
 
@@ -63,17 +73,17 @@ def add_products(initial_stock)
 
   new_product = {}
   print 'Insert new type product: '
-  new_type = gets.chomp
+  new_type = gets.chomp.upcase
 
   new_product['type'] = new_type
   puts ' '
   print 'Insert new quantity: '
-  new_quantity = gets.chomp.to_i
+  new_quantity = gets.chomp.to_i.abs
   new_product['quantity'] = new_quantity
 
   puts ' '
   print 'Insert unity cost: '
-  new_cost = gets.chomp.to_i
+  new_cost = gets.chomp.to_i.abs
   new_product['unit_cost'] = new_cost
   initial_stock << new_product
 
@@ -83,13 +93,7 @@ def add_products(initial_stock)
 
 end
 
-puts 'What would you like to do?'
-puts "-- Type '1' to show stocks."
-puts "-- Type '2' to add new products."
-puts "-- Type '3' to retire products."
-puts "-- Type '4' to show movements of product."
-puts "-- Type '5' to exit."
-puts 'Type your choice: '
+menu
 
 choice = gets.chomp.to_i
 while choice != 5
@@ -107,5 +111,8 @@ while choice != 5
   else
     puts 'wrong option, try again'
   end
+
+  puts ' '
+  menu
   choice = gets.chomp.to_i
 end
