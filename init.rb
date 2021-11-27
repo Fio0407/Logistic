@@ -52,7 +52,6 @@ def retire_products(initial_stock)
     end
   end
 
-
 def add_products(initial_stock)
 
   puts ' '
