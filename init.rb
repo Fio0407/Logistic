@@ -2,7 +2,7 @@
 
 require_relative './products'
 
-initial_stock = PRODUCTS
+initial_stock = PRODUCTS.clone(freeze: false)
 
 def init(initial_stock)
 
@@ -34,19 +34,15 @@ def retire_products(initial_stock)
   puts ' '
   puts 'Enter the quantity to withdraw: '
   new_retire_quantity = gets.chomp.to_i
-  retire_product['quantity'] -= new_retire_quantity
+  retire_product['quantity'] = new_retire_quantity
   puts ' '
-  puts 'Enter the unique price to withdraw'
-  new_retire_unit = gets.chomp.to_i
-  retire_product['unit_cost'] -= new_retire_unit
+
   initial_stock << retire_product
 
-  initial_Stock.each do  |i|
+  initial_stock.each do  |i|
     if retire_type == initial_stock[i][:type]
       if new_retire_quantity < initial_stock[i][:quantity]
-        if new_retire_unit < initial_stock[i][:unit_cost]
-          initial_stock[i][:unit_cost] -= retire_product[:new_retire_unit]
-          initial_stock[i][:quantity] -= retire_product[:new_retire_type]
+          initial_stock[i][:quantity] -= retire_product[:quantity]
           puts ' '
           puts 'Successful withdrawal'
         else
@@ -55,7 +51,7 @@ def retire_products(initial_stock)
       end
     end
   end
-end
+
 
 def add_products(initial_stock)
 
@@ -81,32 +77,10 @@ def add_products(initial_stock)
   new_product['unit_cost'] = new_cost
   initial_stock << new_product
 
-  initial_stock.each do |i|
-    if new_product[new_type] == initial_stock[i][:type]
+  puts ' '
+  puts 'The product was added successfully! '
 
-      print 'Do you wish to replace or add the respective amounts?'
-      wish = gets.chomp.capitalize!
 
-      case wish
-      when wish == 'Replace'
-        initial_stock[i][:quantity] = new_product[:new_quantity]
-        initial_stock[i][:unit_cost] = new_product[:new_cost]
-        puts ' '
-        puts 'The product was successfully changed! '
-
-      when wish == 'Add'
-        initial_stock[i][:quantity] += new_product[:new_quantity]
-        initial_stock[i][:unit_cost] += new_product[:new_cost]
-        puts ' '
-        puts 'The product was successfully changed! '
-      else puts "That's not an option!"
-      end
-
-    else
-      puts ' '
-      puts 'The product was added successfully! '
-    end
-  end
 end
 
 puts 'What would you like to do?'
@@ -125,6 +99,7 @@ while choice != 5
     init(initial_stock)
   when 2
     add_products(initial_stock)
+    init(initial_stock)
   when 3
     retire_products(initial_stock)
   when 4
