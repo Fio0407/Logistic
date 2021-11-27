@@ -43,24 +43,21 @@ def retire_products(initial_stock)
   retire_product['type'] = retire_type
   puts ' '
   puts 'Enter the quantity to withdraw: '
-  new_retire_quantity = gets.chomp.to_i.abs
-  retire_product['quantity'] = new_retire_quantity
+  retire_quantity = gets.chomp.to_i.abs
+  retire_product['quantity'] = retire_quantity
   puts ' '
 
-  initial_stock << retire_product
-
-  initial_stock.each do  |i|
-    if retire_type == initial_stock[i][:type]
-      if new_retire_quantity < initial_stock[i][:quantity]
-          initial_stock[i][:quantity] -= retire_product[:quantity]
-          puts ' '
-          puts 'Successful withdrawal'
-        else
-          print 'error, at this time it is impossible to perform the movement '
-        end
-      end
+  if initial_stock[1][:type] == retire_type
+    if retire_quantity < initial_stock[1][:quantity]
+      initial_stock[1][:quantity] -= retire_quantity
+      puts ' '
+      puts 'Successful withdrawal'
+      puts initial_stock
+    else
+      print 'The request exceeds the current stock'
     end
   end
+end
 
 def add_products(initial_stock)
 
