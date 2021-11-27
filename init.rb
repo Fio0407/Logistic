@@ -40,22 +40,29 @@ def retire_products(initial_stock)
   puts 'Enter the type to withdraw: '
   retire_type = gets.chomp.upcase
   puts ' '
-  puts 'Enter the quantity to withdraw: '
-  retire_quantity = gets.chomp.to_i.abs
-  puts ' '
 
-  initial_stock.each do |stocks|
-    if stocks[:type] == retire_type
-      if retire_quantity < stocks[:quantity]
-        stocks[:quantity] -= retire_quantity
-        puts ' '
-        puts 'Successful withdrawal'
-      else
-        print 'The request exceeds the current stock'
+  if retire_type =~ /^[A-Z]$/
+    puts 'Enter the quantity to withdraw: '
+    retire_quantity = gets.chomp.to_i.abs
+    puts ' '
+    if retire_quantity != ~ /^[A-Z]$/
+      initial_stock.each do |stocks|
+        if stocks[:type] == retire_type
+          if retire_quantity < stocks[:quantity]
+            stocks[:quantity] -= retire_quantity
+            puts ' '
+            puts 'Successful withdrawal!'
+          else
+            print 'The request exceeds the current stock!'
+          end
+        end
       end
+    else
+      puts 'Numbers, please!'
     end
+  else
+    puts 'Only letters, please!'
   end
-
 end
 
 def add_products(initial_stock)
@@ -98,7 +105,6 @@ while choice != 5
     init(initial_stock)
   when 2
     add_products(initial_stock)
-    init(initial_stock)
   when 3
     retire_products(initial_stock)
   when 4
