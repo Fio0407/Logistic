@@ -5,6 +5,7 @@ require_relative './products'
 initial_stock = PRODUCTS
 
 def init(initial_stock)
+
   puts ' '
   puts '=' * 20
   puts '| Available Stocks |'
@@ -18,7 +19,51 @@ def init(initial_stock)
   end
 end
 
+def retire_products(initial_stock)
+
+  puts ' '
+  puts '=' * 19
+  puts '| Retire Products |'
+  puts '=' * 19
+  puts ' '
+
+  retire_product = {}
+  puts 'Enter the type to withdraw: '
+  retire_type = gets.chomp
+  retire_product['type'] = retire_type
+  puts ' '
+  puts 'Enter the quantity to withdraw: '
+  new_retire_quantity = gets.chomp.to_i
+  retire_product['quantity'] -= new_retire_quantity
+  puts ' '
+  puts 'Enter the unique price to withdraw'
+  new_retire_unit = gets.chomp.to_i
+  retire_product['unit_cost'] -= new_retire_unit
+  initial_stock << retire_product
+
+  initial_Stock.each do  |i|
+    if retire_type == initial_stock[i][:type]
+      if new_retire_quantity < initial_stock[i][:quantity]
+        if new_retire_unit < initial_stock[i][:unit_cost]
+          initial_stock[i][:unit_cost] -= retire_product[:new_retire_unit]
+          initial_stock[i][:quantity] -= retire_product[:new_retire_type]
+          puts ' '
+          puts 'Successful withdrawal'
+        else
+          print 'error, at this time it is impossible to perform the movement '
+        end
+      end
+    end
+  end
+end
+
 def add_products(initial_stock)
+
+  puts ' '
+  puts '=' * 16
+  puts '| Add Products |'
+  puts '=' * 16
+  puts ' '
 
   new_product = {}
   print 'Insert new type product: '
@@ -44,14 +89,14 @@ def add_products(initial_stock)
 
       case wish
       when wish == 'Replace'
-        initial_stock[i][:quantity] = new_product[new_quantity.to_sym]
-        initial_stock[i][:unit_cost] = new_product[new_cost.to_sym]
+        initial_stock[i][:quantity] = new_product[:new_quantity]
+        initial_stock[i][:unit_cost] = new_product[:new_cost]
         puts ' '
         puts 'The product was successfully changed! '
 
       when wish == 'Add'
-        initial_stock[i][:quantity] += new_product[new_quantity.to_sym]
-        initial_stock[i][:unit_cost] += new_product[new_cost.to_sym]
+        initial_stock[i][:quantity] += new_product[:new_quantity]
+        initial_stock[i][:unit_cost] += new_product[:new_cost]
         puts ' '
         puts 'The product was successfully changed! '
       else puts "That's not an option!"
@@ -73,7 +118,6 @@ puts "-- Type '5' to exit."
 puts 'Type your choice: '
 
 choice = gets.chomp.to_i
-
 while choice != 5
   case choice
   when 1
@@ -82,13 +126,11 @@ while choice != 5
   when 2
     add_products(initial_stock)
   when 3
-    puts 'b'
+    retire_products(initial_stock)
   when 4
     puts 'move'
   else
     puts 'wrong option, try again'
   end
+  choice = gets.chomp.to_i
 end
-
-
-
