@@ -58,6 +58,16 @@ def retire_products(initial_stock)
 
 end
 
+def weighted_average(initial_stock,new_cost,new_quantity)
+  c = 0
+  initial_stock.each do |stocks|
+    a = stocks[:unit_cost]*stocks[:quantity]
+    b = new_cost*new_quantity
+    c = (a+b) / (new_quantity + stocks[:quantity])
+  end
+  return c
+end
+
 def add_products(initial_stock)
 
   puts ' '
@@ -66,26 +76,42 @@ def add_products(initial_stock)
   puts '=' * 16
   puts ' '
 
-  new_product = {}
   print 'Insert new type product: '
   new_type = gets.chomp.upcase
-
-  new_product['type'] = new_type
   puts ' '
+
   print 'Insert new quantity: '
   new_quantity = gets.chomp.to_i.abs
-  new_product['quantity'] = new_quantity
-
   puts ' '
+
   print 'Insert unity cost: '
   new_cost = gets.chomp.to_i.abs
-  new_product['unit_cost'] = new_cost
-  initial_stock << new_product
 
-  puts ' '
-  puts 'The product was added successfully! '
+  initial_stock.each do |stocks|
+    if stocks[:type] == new_type
+      if stocks[:unit_cost] != new_cost
+        stocks[:unit_cost] = weighted_average(initial_stock,new_cost,new_quantity)
+        break
 
-
+      else
+        stocks[:quantity] += new_quantity
+        puts ' '
+        puts 'Successful aggregate'
+        break
+      end
+    else
+      if stocks[:unit_cost] != new_cost
+        new_product = {}
+        new_product['type'] = new_type
+        new_product['quantity'] = new_quantity
+        new_product['unit_cost'] = new_cost
+        initial_stock << new_product
+        puts ' '
+        puts 'The product was added successfully! '
+        break
+      end
+    end
+  end
 end
 
 menu
