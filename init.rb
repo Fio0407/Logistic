@@ -37,26 +37,25 @@ def retire_products(initial_stock)
   puts '=' * 19
   puts ' '
 
-  retire_product = {}
   puts 'Enter the type to withdraw: '
   retire_type = gets.chomp.upcase
-  retire_product['type'] = retire_type
   puts ' '
   puts 'Enter the quantity to withdraw: '
   retire_quantity = gets.chomp.to_i.abs
-  retire_product['quantity'] = retire_quantity
   puts ' '
 
-  if initial_stock[1][:type] == retire_type
-    if retire_quantity < initial_stock[1][:quantity]
-      initial_stock[1][:quantity] -= retire_quantity
-      puts ' '
-      puts 'Successful withdrawal'
-      puts initial_stock
-    else
-      print 'The request exceeds the current stock'
+  initial_stock.each do |stocks|
+    if stocks[:type] == retire_type
+      if retire_quantity < stocks[:quantity]
+        stocks[:quantity] -= retire_quantity
+        puts ' '
+        puts 'Successful withdrawal'
+      else
+        print 'The request exceeds the current stock'
+      end
     end
   end
+
 end
 
 def add_products(initial_stock)
