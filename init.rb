@@ -87,37 +87,49 @@ def add_products(initial_stock)
   new_type = gets.chomp.upcase
   puts ' '
 
-  print 'Insert new quantity: '
-  new_quantity = gets.chomp.to_i.abs
-  puts ' '
+  if new_type =~ /^[A-Z]$/
+    print 'Insert new quantity: '
+    new_quantity = gets.chomp.to_i.abs
+    puts ' '
 
-  print 'Insert unity cost: '
-  new_cost = gets.chomp.to_i.abs
+    if new_quantity != ~ /^[A-Z]$/
+      print 'Insert unity cost: '
+      new_cost = gets.chomp.to_i.abs
 
-  initial_stock.each do |stocks|
-    if stocks[:type] == new_type
-      if stocks[:unit_cost] != new_cost
-        stocks[:unit_cost] = weighted_average(initial_stock,new_cost,new_quantity)
-        break
+      if new_cost != ~ /^[A-Z]$/
+        initial_stock.each do |stocks|
+          if stocks[:type] == new_type
+            if stocks[:unit_cost] != new_cost
+              stocks[:unit_cost] = weighted_average(initial_stock,new_cost,new_quantity)
+              break
 
+            else
+              stocks[:quantity] += new_quantity
+              puts ' '
+              puts 'Successful aggregate'
+              break
+            end
+          else
+            if stocks[:unit_cost] != new_cost
+              new_product = {}
+              new_product['type'] = new_type
+              new_product['quantity'] = new_quantity
+              new_product['unit_cost'] = new_cost
+              initial_stock << new_product
+              puts ' '
+              puts 'The product was added successfully! '
+              break
+            end
+          end
+        end
       else
-        stocks[:quantity] += new_quantity
-        puts ' '
-        puts 'Successful aggregate'
-        break
+        puts 'Numbers, please!'
       end
     else
-      if stocks[:unit_cost] != new_cost
-        new_product = {}
-        new_product['type'] = new_type
-        new_product['quantity'] = new_quantity
-        new_product['unit_cost'] = new_cost
-        initial_stock << new_product
-        puts ' '
-        puts 'The product was added successfully! '
-        break
-      end
+      puts 'Numbers, please!'
     end
+  else
+    puts 'Only letters, please!'
   end
 end
 
