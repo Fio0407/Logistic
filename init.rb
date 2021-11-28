@@ -9,13 +9,12 @@ def menu
   puts "-- Type '1' to show stocks."
   puts "-- Type '2' to add new products."
   puts "-- Type '3' to retire products."
-  puts "-- Type '4' to show movements of product."
-  puts "-- Type '5' to exit."
+  puts "-- Type '4' to exit."
   puts 'Type your choice: '
 end
 
 def init(initial_stock)
-  total = 0
+
   puts ' '
   puts '=' * 20
   puts '| Available Stocks |'
@@ -66,7 +65,6 @@ def add_products(initial_stock)
             if stocks[:unit_cost] != new_cost
               stocks[:unit_cost] = weighted_average(initial_stock,new_cost,new_quantity)
               break
-
             else
               stocks[:quantity] += new_quantity
               puts ' '
@@ -133,14 +131,10 @@ def retire_products(initial_stock)
   end
 end
 
-def show_movements(initial_stock)
-
-end
-
 menu
 
 choice = gets.chomp.to_i
-while choice != 5
+while choice != 4
   case choice
   when 1
     puts ' '
@@ -149,8 +143,6 @@ while choice != 5
     add_products(initial_stock)
   when 3
     retire_products(initial_stock)
-  when 4
-    show_movements(initial_stock)
   else
     puts 'wrong option, try again'
   end
